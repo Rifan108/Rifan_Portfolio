@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arogya Mitra | Continuous Wearable Biometric Telemetry</title>
+
+  <!-- Google Fonts: Inter, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    /* Design Tokens: Black & White Theme */
+    :root {
+      --bg-page: #ffffff;
+      --bg-card: #ffffff;
+      --text-main: #111111;
+      --text-muted: #64748b;
+      --border-card: #e5e7eb;
+      --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* PAGE: White background (#ffffff) */
+    body {
+      background-color: var(--bg-page);
+      font-family: var(--font-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 60px 24px 80px 24px;
+      color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Centered heading "Arogya Mitra", Inter, weight 800, ~56px, color #111, letter-spacing -0.02em */
+    .page-heading {
+      font-size: clamp(40px, 5vw, 56px);
+      font-weight: 800;
+      color: #111111;
+      letter-spacing: -0.02em;
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    /* HERO CARD: max-width ~1200px, min-height ~570px, radius 32px, background #ffffff */
+    .hero-card {
+      width: 100%;
+      max-width: 1200px;
+      min-height: 570px;
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-card);
+      border-radius: 32px;
+      position: relative;
+      overflow: visible;
+      box-shadow: 0 24px 60px -15px rgba(0, 0, 0, 0.08), 0 0 1px 1px rgba(0, 0, 0, 0.04);
+      display: flex;
+      align-items: center;
+      padding: 50px 64px;
+    }
+
+    /* Two-column layout */
+    .card-layout {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 56px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* LEFT: Title, Description, Button */
+    .left-col {
+      flex: 1;
+      max-width: 500px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .project-title {
+      font-size: clamp(48px, 6vw, 68px);
+      font-weight: 800;
+      color: #111111;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      margin-bottom: 20px;
+    }
+
+    .project-tagline {
+      font-size: 19px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 34px;
+      max-width: 480px;
+      font-weight: 400;
+    }
+
+    /* Solid black pill button "Open in GitHub" + GitHub icon */
+    .btn-github {
+      background: #111111;
+      color: #ffffff;
+      font-family: var(--font-main);
+      font-size: 16px;
+      font-weight: 600;
+      padding: 16px 32px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-github:hover {
+      background: #27272a;
+      color: #ffffff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    /* RIGHT: Vector Backdrop & Dual Phone Mockups */
+    .right-col {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 520px;
+      min-height: 460px;
+    }
+
+    /* Folded Vector Map Backdrop */
+    .vector-backdrop {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 320px;
+      height: 280px;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.9;
+    }
+
+    .vector-svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Dual Phones Container */
+    .dual-phones-wrap {
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      width: 100%;
+      z-index: 2;
+    }
+
+    .phone-mockup {
+      background: #ffffff;
+      border-radius: 32px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+      user-select: none;
+      box-sizing: border-box;
+    }
+
+    /* Back Phone */
+    .phone-back {
+      width: 238px;
+      height: 395px;
+      border: 2.5px solid #111111;
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.08);
+      z-index: 1;
+    }
+
+    /* Front Phone */
+    .phone-front {
+      width: 250px;
+      height: 418px;
+      border: 2.5px solid #111111;
+      box-shadow: -16px 22px 50px rgba(0, 0, 0, 0.16);
+      z-index: 2;
+      margin-left: -70px;
+      margin-top: 36px;
+      animation: floatSlow 5s ease-in-out infinite;
+    }
+
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    .dual-phones-wrap:hover .phone-back {
+      transform: translateY(-4px) translateX(-3px);
+    }
+
+    .dual-phones-wrap:hover .phone-front {
+      transform: translateY(-12px) translateX(3px);
+      box-shadow: -20px 28px 60px rgba(0, 0, 0, 0.24);
+    }
+
+    /* Phone Speaker Notch */
+    .phone-speaker-bar {
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-top: 8px;
+      background: inherit;
+      border-top-left-radius: 30px;
+      border-top-right-radius: 30px;
+    }
+
+    .phone-camera-lens {
+      width: 44px;
+      height: 4px;
+      background: #e5e7eb;
+      border-radius: 9999px;
+    }
+
+    .phone-screen {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: #ffffff;
+      border-bottom-left-radius: 30px;
+      border-bottom-right-radius: 30px;
+    }
+
+    .phone-screen-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.35rem 0.75rem 0.5rem;
+      border-bottom: 1px solid #f3f4f6;
+      gap: 0.45rem;
+    }
+
+    .phone-header-icon {
+      font-size: 0.76rem;
+      color: #111111;
+    }
+
+    .phone-search-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: #f3f4f6;
+      border-radius: 9999px;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.65rem;
+      color: #6b7280;
+      flex: 1;
+    }
+
+    .phone-location-tag {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #111111;
+      flex: 1;
+      white-space: nowrap;
+    }
+
+    .phone-location-tag i {
+      color: #111111;
+      font-size: 0.7rem;
+    }
+
+    .phone-avatar-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #111111;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.55rem;
+    }
+
+    .phone-screen-body {
+      padding: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      justify-content: space-between;
+    }
+
+    /* Live ECG Animated Waveform */
+    .phone-ecg-view {
+      background: #f9fafb;
+      border-radius: 12px;
+      border: 1px solid #e5e7eb;
+      padding: 0.65rem;
+    }
+
+    .phone-map-header {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .pulse-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 6px #10b981;
+    }
+
+    .phone-map-status {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: #111111;
+    }
+
+    .vital-wave-canvas {
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .vital-phone-svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .ecg-animated-path {
+      stroke-dasharray: 200;
+      animation: ecgPulse 2.6s linear infinite;
+    }
+
+    @keyframes ecgPulse {
+      0% { stroke-dashoffset: 200; }
+      100% { stroke-dashoffset: -200; }
+    }
+
+    .phone-map-footer {
+      font-size: 0.58rem;
+      color: #6b7280;
+      font-weight: 600;
+      border-top: 1px dashed #e5e7eb;
+      padding-top: 0.35rem;
+      margin-top: 0.3rem;
+    }
+
+    .phone-sub-card {
+      background: #f9fafb;
+      border: 1px solid #f3f4f6;
+      border-radius: 10px;
+      padding: 0.5rem 0.6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .psc-label {
+      font-size: 0.62rem;
+      color: #6b7280;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .psc-val {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #111111;
+    }
+
+    /* Front Phone Content */
+    .phone-greeting-box {
+      margin-bottom: 0.5rem;
+    }
+
+    .phone-greeting-title {
+      font-size: 0.96rem;
+      font-weight: 800;
+      color: #111111;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+
+    .phone-greeting-sub {
+      font-size: 0.66rem;
+      color: #6b7280;
+      margin-top: 2px;
+    }
+
+    .phone-quick-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.45rem;
+      margin-bottom: 0.55rem;
+    }
+
+    .phone-quick-card {
+      background: #f9fafb;
+      border: 1px solid #f3f4f6;
+      border-radius: 10px;
+      padding: 0.45rem 0.5rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pqc-label {
+      font-size: 0.58rem;
+      color: #6b7280;
+      font-weight: 500;
+      margin-bottom: 0.15rem;
+    }
+
+    .pqc-val {
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: #111111;
+    }
+
+    .pqc-val.highlight {
+      color: #16a34a;
+    }
+
+    .beat-icon {
+      color: #ef4444;
+      display: inline-block;
+      animation: heartBeat 1.4s ease-in-out infinite;
+    }
+
+    @keyframes heartBeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+    }
+
+    /* Black Clinician SOS button */
+    .phone-action-btn {
+      background: #111111;
+      color: #ffffff;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.5rem 0.65rem;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease;
+      width: 100%;
+    }
+
+    .phone-action-btn:hover {
+      background: #27272a;
+      transform: scale(1.02);
+    }
+
+    .phone-award-strip {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.58rem;
+      color: #6b7280;
+      font-weight: 600;
+      margin-top: 0.4rem;
+      padding-top: 0.35rem;
+      border-top: 1px solid #f3f4f6;
+    }
+
+    .phone-award-strip i {
+      color: #111111;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .hero-card {
+        padding: 44px 32px;
+      }
+      .card-layout {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 40px;
+      }
+      .left-col {
+        align-items: center;
+        max-width: 100%;
+      }
+      .project-title {
+        font-size: 46px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 40px 16px 60px 16px;
+      }
+      .hero-card {
+        padding: 32px 18px;
+        border-radius: 24px;
+      }
+      .right-col {
+        width: 100%;
+        min-height: auto;
+      }
+      .vector-backdrop {
+        display: none;
+      }
+      .phone-mockup.phone-back {
+        display: none;
+      }
+      .phone-mockup.phone-front {
+        margin-left: 0;
+        margin-top: 0;
+        width: 100%;
+        max-width: 270px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE HEADING -->
+  <h1 class="page-heading">Arogya Mitra</h1>
+
+  <!-- HERO CARD (Black and White Theme) -->
+  <div class="hero-card">
+    <div class="card-layout">
+      <!-- LEFT COLUMN -->
+      <div class="left-col">
+        <h2 class="project-title">Arogya Mitra</h2>
+        <p class="project-tagline">Continuous Wearable Biometric Telemetry &amp; Automated Emergency Clinician Dispatch Platform</p>
+        <a href="https://github.com/Rifan108" target="_blank" rel="noopener noreferrer" class="btn-github">
+          Open in GitHub <i class="fa-brands fa-github"></i>
+        </a>
+      </div>
+
+      <!-- RIGHT COLUMN: Dual Phones & Vector Backdrop -->
+      <div class="right-col">
+        <!-- Folded Vector Route Map in Background -->
+        <div class="vector-backdrop" aria-hidden="true">
+          <svg class="vector-svg" viewBox="0 0 320 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="20,20 100,0 100,260 20,280" fill="#f3f4f6" stroke="#e5e7eb" stroke-width="1.5" />
+            <polygon points="100,0 180,25 180,285 100,260" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1.5" />
+            <polygon points="180,25 260,5 260,265 180,285" fill="#f3f4f6" stroke="#e5e7eb" stroke-width="1.5" />
+            <polygon points="260,5 310,20 310,280 260,265" fill="#f9fafb" stroke="#e5e7eb" stroke-width="1.5" />
+            <path d="M40 220 L90 140 L170 170 L285 95" stroke="#9ca3af" stroke-width="2.5" stroke-dasharray="4,4" />
+            <circle cx="285" cy="95" r="14" fill="#e5e7eb" />
+            <circle cx="285" cy="95" r="6" fill="#111111" />
+            <circle cx="90" cy="140" r="4" fill="#6b7280" />
+          </svg>
+        </div>
+
+        <div class="dual-phones-wrap">
+          <!-- Back Phone: Animated ECG Waveform -->
+          <div class="phone-mockup phone-back">
+            <div class="phone-speaker-bar"><span class="phone-camera-lens"></span></div>
+            <div class="phone-screen">
+              <div class="phone-screen-header">
+                <span class="phone-header-icon"><i class="fa-solid fa-bars"></i></span>
+                <div class="phone-search-pill">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                  <span>Search Patient...</span>
+                </div>
+                <div class="phone-avatar-dot"><i class="fa-solid fa-user-doctor"></i></div>
+              </div>
+              <div class="phone-screen-body">
+                <div class="phone-ecg-view">
+                  <div class="phone-map-header">
+                    <span class="pulse-dot"></span>
+                    <span class="phone-map-status">Node-01 Wearable</span>
+                  </div>
+                  <div class="vital-wave-canvas">
+                    <svg viewBox="0 0 160 55" class="vital-phone-svg" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path class="ecg-animated-path"
+                        d="M0 28 L25 28 L35 10 L45 46 L55 14 L65 36 L75 28 L110 28 L120 10 L130 46 L140 18 L150 28 L160 28"
+                        stroke="#111111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </div>
+                  <div class="phone-map-footer">
+                    <span>Telemetry Latency &lt; 120ms</span>
+                  </div>
+                </div>
+                <div class="phone-sub-card">
+                  <span class="psc-label"><i class="fa-solid fa-heart-pulse"></i> Continuous Vitals</span>
+                  <span class="psc-val">Real-Time Stream Active</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Front Phone: Clinician SOS Dashboard -->
+          <div class="phone-mockup phone-front">
+            <div class="phone-speaker-bar"><span class="phone-camera-lens"></span></div>
+            <div class="phone-screen">
+              <div class="phone-screen-header">
+                <span class="phone-header-icon"><i class="fa-solid fa-bars"></i></span>
+                <div class="phone-location-tag">
+                  <i class="fa-solid fa-hospital"></i>
+                  <span>Ward 4B, Mangaluru</span>
+                </div>
+                <div class="phone-avatar-dot"><i class="fa-solid fa-user"></i></div>
+              </div>
+              <div class="phone-screen-body">
+                <div class="phone-greeting-box">
+                  <h3 class="phone-greeting-title">Hello, Dr. Sharma</h3>
+                  <p class="phone-greeting-sub">Biometrics within safe threshold</p>
+                </div>
+
+                <div class="phone-quick-grid">
+                  <div class="phone-quick-card">
+                    <span class="pqc-label">Heart Rate</span>
+                    <span class="pqc-val highlight"><i class="fa-solid fa-heart beat-icon"></i> 72 BPM</span>
+                  </div>
+                  <div class="phone-quick-card">
+                    <span class="pqc-label">Blood SpO2</span>
+                    <span class="pqc-val">99% Optimal</span>
+                  </div>
+                  <div class="phone-quick-card">
+                    <span class="pqc-label">Body Temp</span>
+                    <span class="pqc-val">98.6° F</span>
+                  </div>
+                  <div class="phone-quick-card">
+                    <span class="pqc-label">SOS Dispatch</span>
+                    <span class="pqc-val">Auto Ready</span>
+                  </div>
+                </div>
+
+                <!-- Interactive SOS Action Button -->
+                <button type="button" class="phone-action-btn" id="btn-sos">
+                  <i class="fa-solid fa-truck-medical"></i> <span>Trigger Clinician SOS</span>
+                </button>
+
+                <div class="phone-award-strip">
+                  <i class="fa-solid fa-trophy"></i> <span>Runner-Up | Chakravyuha Hackathon</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Clinician SOS interaction
+    const sosBtn = document.getElementById('btn-sos');
+    if (sosBtn) {
+      sosBtn.addEventListener('click', () => {
+        sosBtn.style.transform = 'scale(0.95)';
+        sosBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> <span>Transmitting SOS...</span>';
+        setTimeout(() => {
+          sosBtn.style.transform = '';
+          sosBtn.innerHTML = '<i class="fa-solid fa-circle-check"></i> <span>Clinician Alerted!</span>';
+          setTimeout(() => {
+            sosBtn.innerHTML = '<i class="fa-solid fa-truck-medical"></i> <span>Trigger Clinician SOS</span>';
+          }, 3500);
+        }, 800);
+      });
+    }
+  </script>
+</body>
+</html>

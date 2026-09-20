@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#555a64"/>
+      <stop offset="100%" stop-color="#2a2c32"/>
+    </linearGradient>
+  </defs>
+  <circle cx="50" cy="50" r="50" fill="url(#g2)"/>
+  <!-- Neck -->
+  <rect x="43" y="58" width="14" height="16" fill="#bcc1c9" rx="2"/>
+  <!-- Shirt -->
+  <path d="M20 90 Q34 68 50 68 Q66 68 80 90 Z" fill="#323640"/>
+  <!-- Head & Hair -->
+  <circle cx="50" cy="45" r="18" fill="#d2d7df"/>
+  <path d="M32 40 Q35 24 50 24 Q65 24 68 40 Q62 27 50 28 Q38 27 32 40 Z" fill="#1b1c20"/>
+  <!-- Ears -->
+  <circle cx="32" cy="46" r="4" fill="#c4c9d2"/>
+  <circle cx="68" cy="46" r="4" fill="#c4c9d2"/>
+  <!-- Eyes -->
+  <circle cx="43" cy="44" r="2.2" fill="#25272e"/>
+  <circle cx="57" cy="44" r="2.2" fill="#25272e"/>
+  <!-- Eyebrows -->
+  <path d="M40 40 Q44 38 47 40" stroke="#1b1c20" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  <path d="M53 40 Q56 38 60 40" stroke="#1b1c20" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  <!-- Nose & Smile -->
+  <path d="M50 45 L50 49 L52 50" stroke="#717682" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  <path d="M44 54 Q50 58 56 54" stroke="#323640" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+</svg>

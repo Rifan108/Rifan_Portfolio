@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Decentralized Voting System | Vote3</title>
+  
+  <!-- Google Fonts: Inter, Pixelify Sans, Silkscreen, Press Start 2P, Space Mono, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Pixelify+Sans:wght@600;700&family=Press+Start+2P&family=Silkscreen:wght@400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <style>
+    /* CSS Variables matching Color Tokens */
+    :root {
+      --bg-card: #101116;
+      --bg-panel: #14151b;
+      --bg-inset: #0f1015;
+      --tile-empty: #474a54;
+      --tile-green: #62b98a;
+      --tile-blue: #66b8d4;
+      --text-muted: #9a9ca6;
+      --border: rgba(255, 255, 255, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* PAGE: White page background (#ffffff) */
+    body {
+      background-color: #ffffff;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 60px 24px 80px 24px;
+      color: #111111;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Centered heading "Decentralized Voting System", Inter, weight 800, ~48-56px, color #111, tight letter-spacing (-0.02em) */
+    .page-heading {
+      font-size: clamp(40px, 5vw, 56px);
+      font-weight: 800;
+      color: #111111;
+      letter-spacing: -0.02em;
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    /* HERO CARD: max-width ~1200px, background #101116, border-radius 32px, padding 56px, soft large shadow */
+    .hero-card {
+      width: 100%;
+      max-width: 1200px;
+      background: var(--bg-card);
+      border-radius: 32px;
+      padding: 56px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 30px 70px -15px rgba(0, 0, 0, 0.65), 0 0 1px 1px rgba(255, 255, 255, 0.06);
+    }
+
+    /* Pixel Dust Dots (6-8px) floating/twinkling */
+    .pixel-dust {
+      position: absolute;
+      background: #ffffff;
+      border-radius: 0;
+      pointer-events: none;
+      z-index: 1;
+      animation: pixelFloat 5s ease-in-out infinite alternate;
+    }
+
+    .pd-top-right {
+      top: 36px;
+      right: 48px;
+      width: 8px;
+      height: 8px;
+      box-shadow: 0 0 14px rgba(255, 255, 255, 0.95), 0 0 24px rgba(255, 255, 255, 0.45);
+      animation: none;
+    }
+
+    .pd-center {
+      top: 42%;
+      left: 51%;
+      width: 7px;
+      height: 7px;
+      opacity: 0.8;
+      animation-delay: 0.2s;
+    }
+
+    .pd-lower-left {
+      top: 74%;
+      left: 17%;
+      width: 6px;
+      height: 6px;
+      opacity: 0.85;
+      animation-delay: 1.5s;
+    }
+
+    .pd-bottom {
+      bottom: 9%;
+      left: 36%;
+      width: 7px;
+      height: 7px;
+      opacity: 0.75;
+      animation-delay: 0.8s;
+    }
+
+    @keyframes pixelFloat {
+      0% {
+        opacity: 0.35;
+        transform: translateY(0px) scale(0.9);
+      }
+      50% {
+        opacity: 1;
+        transform: translateY(-5px) scale(1.1);
+      }
+      100% {
+        opacity: 0.45;
+        transform: translateY(-9px) scale(0.95);
+      }
+    }
+
+    /* Two-column layout: left text, right ballot widget (stack on mobile) */
+    .hero-grid {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 56px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* LEFT COLUMN */
+    .left-col {
+      flex: 1;
+      max-width: 540px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    /* Huge "VOTE3" logo text in a chunky pixel font */
+    .vote3-title {
+      font-family: 'Press Start 2P', 'Silkscreen', monospace;
+      font-size: clamp(52px, 7vw, 100px);
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: 0.04em;
+      line-height: 1.1;
+      margin-bottom: 28px;
+      text-shadow: 0 0 24px rgba(255, 255, 255, 0.25), 4px 4px 0 rgba(0, 0, 0, 0.6);
+      user-select: none;
+    }
+
+    /* Description in Inter, 20px, color #9a9ca6, line-height 1.6, max-width 520px */
+    .vote3-desc {
+      font-family: 'Inter', sans-serif;
+      font-size: 20px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      max-width: 520px;
+      margin-bottom: 38px;
+      font-weight: 400;
+    }
+
+    /* Pill button "Open in GitHub" + GitHub icon */
+    .btn-github {
+      background: #16171d;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 999px;
+      padding: 16px 32px;
+      color: #ffffff;
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    }
+
+    .btn-github:hover {
+      background: #1c1e26;
+      border-color: rgba(255, 255, 255, 0.35);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      transform: translateY(-2px);
+    }
+
+    /* RIGHT COLUMN: "Sepolia Ballot" widget */
+    .ballot-widget {
+      width: 440px;
+      max-width: 100%;
+      background: var(--bg-panel);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.45);
+      user-select: none;
+    }
+
+    .ballot-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 22px;
+    }
+
+    .ballot-title-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .ballot-title {
+      font-family: 'Space Mono', 'Silkscreen', monospace;
+      font-size: 30px;
+      color: #ffffff;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+    }
+
+    .ballot-subtitle {
+      font-family: 'JetBrains Mono', 'Space Mono', monospace;
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      letter-spacing: 0.01em;
+    }
+
+    /* Top-right badge: label "BLOCKS" and count "16" in green */
+    .blocks-badge {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      min-width: 58px;
+    }
+
+    .blocks-label {
+      font-size: 10px;
+      color: #6b7280;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .blocks-count {
+      font-family: 'Silkscreen', 'Press Start 2P', monospace;
+      font-size: 22px;
+      color: var(--tile-green);
+      text-shadow: 0 0 10px rgba(98, 185, 138, 0.5);
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      margin-top: 2px;
+    }
+
+    /* 6 columns x 5 rows grid inside a darker inset container (#0f1015, radius 20px, padding 20px) */
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+      background: var(--bg-inset);
+      border-radius: 20px;
+      padding: 20px;
+    }
+
+    .tile {
+      aspect-ratio: 1;
+      background: var(--tile-empty);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    }
+
+    .tile:hover {
+      transform: scale(1.08);
+    }
+
+    .tile.active-green {
+      background: var(--tile-green);
+      box-shadow: 0 0 12px rgba(98, 185, 138, 0.5);
+      border-top-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .tile.active-cyan {
+      background: var(--tile-blue);
+      box-shadow: 0 0 12px rgba(102, 184, 212, 0.5);
+      border-top-color: rgba(255, 255, 255, 0.25);
+    }
+
+    .tile.just-clicked {
+      transform: scale(1.18);
+      filter: brightness(1.3);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 980px) {
+      .hero-card {
+        padding: 40px 24px;
+        border-radius: 24px;
+      }
+      .hero-grid {
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+      }
+      .left-col {
+        max-width: 100%;
+        width: 100%;
+        align-items: center;
+        text-align: center;
+      }
+      .vote3-title {
+        font-size: clamp(52px, 12vw, 84px);
+      }
+      .vote3-desc {
+        font-size: 18px;
+      }
+      .ballot-widget {
+        width: 100%;
+        max-width: 440px;
+        padding: 22px;
+      }
+      .ballot-title {
+        font-size: 26px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 40px 16px 60px 16px;
+      }
+      .page-heading {
+        font-size: 32px;
+        margin-bottom: 32px;
+      }
+      .hero-card {
+        padding: 28px 16px;
+      }
+      .vote3-title {
+        font-size: 48px;
+      }
+      .vote3-desc {
+        font-size: 16px;
+      }
+      .grid-container {
+        gap: 8px;
+        padding: 14px;
+      }
+      .tile {
+        border-radius: 6px;
+      }
+      .ballot-title {
+        font-size: 20px;
+      }
+      .ballot-subtitle {
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE HEADING: Centered heading "Decentralized Voting System" -->
+  <h1 class="page-heading">Decentralized Voting System</h1>
+
+  <!-- HERO CARD -->
+  <div class="hero-card">
+    <!-- Pixel Dust scattered dots -->
+    <div class="pixel-dust pd-top-right"></div>
+    <div class="pixel-dust pd-center"></div>
+    <div class="pixel-dust pd-lower-left"></div>
+    <div class="pixel-dust pd-bottom"></div>
+
+    <div class="hero-grid">
+      <!-- LEFT COLUMN -->
+      <div class="left-col">
+        <h2 class="vote3-title">VOTE3</h2>
+        <p class="vote3-desc">Tamper-Proof Electronic Voting Platform combining RFID Authentication with Ethereum Smart Contracts</p>
+        <a href="https://github.com/Rifan108" target="_blank" rel="noopener noreferrer" class="btn-github">
+          Open in GitHub <i class="fa-brands fa-github"></i>
+        </a>
+      </div>
+
+      <!-- RIGHT COLUMN: Sepolia Ballot widget -->
+      <div class="ballot-widget">
+        <div class="ballot-header">
+          <div class="ballot-title-group">
+            <h3 class="ballot-title">Sepolia Ballot</h3>
+            <span class="ballot-subtitle">RFID vs Smart Contract</span>
+          </div>
+          <div class="blocks-badge">
+            <span class="blocks-label">BLOCKS</span>
+            <span class="blocks-count" id="blocks-count">16</span>
+          </div>
+        </div>
+
+        <!-- 6 columns x 5 rows grid of rounded-square tiles (30 tiles total, 16 colored initially) -->
+        <div class="grid-container" id="ballot-grid">
+          <!-- Row 1 -->
+          <div class="tile"></div>
+          <div class="tile"></div>
+          <div class="tile active-green"></div>
+          <div class="tile active-green"></div>
+          <div class="tile"></div>
+          <div class="tile active-green"></div>
+          <!-- Row 2 -->
+          <div class="tile active-cyan"></div>
+          <div class="tile"></div>
+          <div class="tile"></div>
+          <div class="tile active-green"></div>
+          <div class="tile"></div>
+          <div class="tile active-cyan"></div>
+          <!-- Row 3 -->
+          <div class="tile"></div>
+          <div class="tile active-green"></div>
+          <div class="tile"></div>
+          <div class="tile active-green"></div>
+          <div class="tile active-cyan"></div>
+          <div class="tile"></div>
+          <!-- Row 4 -->
+          <div class="tile"></div>
+          <div class="tile"></div>
+          <div class="tile active-green"></div>
+          <div class="tile"></div>
+          <div class="tile"></div>
+          <div class="tile active-green"></div>
+          <!-- Row 5 -->
+          <div class="tile active-green"></div>
+          <div class="tile active-cyan"></div>
+          <div class="tile"></div>
+          <div class="tile"></div>
+          <div class="tile active-green"></div>
+          <div class="tile active-green"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Grid Simulation & Interaction Logic
+    const grid = document.getElementById('ballot-grid');
+    const counter = document.getElementById('blocks-count');
+    const tiles = Array.from(grid.querySelectorAll('.tile'));
+
+    function updateCounter(animate = false) {
+      const count = grid.querySelectorAll('.active-green, .active-cyan').length;
+      counter.textContent = count;
+      if (animate) {
+        counter.style.transform = 'scale(1.22)';
+        setTimeout(() => { counter.style.transform = 'scale(1)'; }, 220);
+      }
+    }
+
+    // Initialize counter to 16
+    updateCounter();
+
+    // Random mining animation every ~1.2s
+    setInterval(() => {
+      const randomIndex = Math.floor(Math.random() * tiles.length);
+      const tile = tiles[randomIndex];
+      const count = grid.querySelectorAll('.active-green, .active-cyan').length;
+
+      if (!tile.classList.contains('active-green') && !tile.classList.contains('active-cyan')) {
+        tile.classList.add('active-cyan');
+        updateCounter(true);
+      } else if (tile.classList.contains('active-cyan')) {
+        tile.classList.remove('active-cyan');
+        tile.classList.add('active-green');
+        updateCounter(true);
+      } else if (tile.classList.contains('active-green')) {
+        if (count > 17 || Math.random() < 0.3) {
+          tile.classList.remove('active-green');
+          if (Math.random() < 0.5) tile.classList.add('active-cyan');
+          updateCounter(false);
+        }
+      }
+    }, 1200);
+
+    // Interactive click handling
+    grid.addEventListener('click', (e) => {
+      const tile = e.target.closest('.tile');
+      if (!tile) return;
+
+      tile.classList.add('just-clicked');
+      setTimeout(() => tile.classList.remove('just-clicked'), 250);
+
+      if (tile.classList.contains('active-green')) {
+        tile.classList.remove('active-green');
+        tile.classList.add('active-cyan');
+      } else if (tile.classList.contains('active-cyan')) {
+        tile.classList.remove('active-cyan');
+      } else {
+        tile.classList.add('active-green');
+      }
+      updateCounter(true);
+    });
+  </script>
+</body>
+</html>

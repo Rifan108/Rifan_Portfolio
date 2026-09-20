@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <linearGradient id="g7" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#9da2ab"/>
+      <stop offset="50%" stop-color="#70757e"/>
+      <stop offset="100%" stop-color="#30333a"/>
+    </linearGradient>
+  </defs>
+  <circle cx="50" cy="50" r="50" fill="url(#g7)"/>
+  <!-- Horizon line -->
+  <line x1="0" y1="65" x2="100" y2="65" stroke="#484d56" stroke-width="1.5"/>
+  <!-- Body looking away/horizon -->
+  <path d="M28 92 Q38 72 50 72 Q62 72 72 92 Z" fill="#22242a"/>
+  <!-- Head -->
+  <ellipse cx="50" cy="48" r="16" fill="#40444d"/>
+  <ellipse cx="50" cy="40" r="14" fill="#1b1c20"/>
+</svg>
