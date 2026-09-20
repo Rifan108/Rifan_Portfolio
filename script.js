@@ -4,7 +4,6 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  initAvatarToggle();
   initEmailTriggers();
   initClipboardCopier();
   initSmoothScroll();
@@ -42,43 +41,9 @@ function initEmailTriggers() {
 }
 
 /* --------------------------------------------------------------------------
-   1. INTERACTIVE AVATAR TOGGLER (Hand-drawn Sketch <-> Real Suit Photo)
+   1. AVATAR CONFIGURATION (Pure Hand-Drawn Doodle Sketch)
    -------------------------------------------------------------------------- */
-function initAvatarToggle() {
-  const frame = document.getElementById('avatar-toggle');
-  const img = document.getElementById('avatar-image');
-  const label = document.getElementById('avatar-mode-label');
-
-  if (!frame || !img || !label) return;
-
-  let isPhoto = false;
-
-  frame.addEventListener('click', () => {
-    isPhoto = !isPhoto;
-
-    // Smooth opacity fade without layout shift
-    img.style.opacity = '0';
-
-    setTimeout(() => {
-      if (isPhoto) {
-        img.src = 'assets/profile.jpg';
-        img.alt = 'Mohammed Nawaz Rifan - Portrait in Suit';
-        label.innerHTML = '<i class="fa-solid fa-paintbrush"></i> View Sketch';
-      } else {
-        img.src = 'assets/avatar.png?v=3';
-        img.alt = 'Mohammed Nawaz Rifan - Hand Drawn Avatar';
-        label.innerHTML = '<i class="fa-solid fa-camera"></i> View Photo';
-      }
-      
-      img.onload = () => {
-        img.style.opacity = '1';
-      };
-      setTimeout(() => {
-        img.style.opacity = '1';
-      }, 40);
-    }, 120);
-  });
-}
+// Sketch avatar is rendered statically with no photo switcher
 
 /* --------------------------------------------------------------------------
    2. FLOATING NAV SCROLL REVEAL
