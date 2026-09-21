@@ -4,6 +4,8 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  initAvatarSwitcher();
+  initToolIconExpansion();
   initEmailTriggers();
   initClipboardCopier();
   initSmoothScroll();
@@ -41,9 +43,139 @@ function initEmailTriggers() {
 }
 
 /* --------------------------------------------------------------------------
-   1. AVATAR CONFIGURATION (Pure Hand-Drawn Doodle Sketch)
+   1. INTERACTIVE AVATAR SWITCHER (Hand-Drawn Sketch ⇄ Real Portrait Photo)
    -------------------------------------------------------------------------- */
-// Sketch avatar is rendered statically with no photo switcher
+function initAvatarSwitcher() {
+  const frame = document.getElementById('avatar-frame');
+  if (!frame) return;
+
+  let isShowingPhoto = false;
+
+  function toggleAvatar(e) {
+    if (e) {
+      if (e.type === 'keydown' && e.key !== 'Enter' && e.key !== ' ') {
+        return;
+      }
+      e.preventDefault();
+    }
+
+    isShowingPhoto = !isShowingPhoto;
+
+    if (isShowingPhoto) {
+      frame.classList.add('show-photo');
+      frame.setAttribute('title', 'Click / Tap to switch back to Sketch Avatar');
+      frame.setAttribute('aria-label', 'Showing professional portrait photo. Tap to switch back to sketch avatar');
+    } else {
+      frame.classList.remove('show-photo');
+      frame.setAttribute('title', 'Click / Tap to reveal Professional Portrait Photo');
+      frame.setAttribute('aria-label', 'Showing sketch avatar. Tap to reveal professional portrait photo');
+    }
+  }
+
+  frame.addEventListener('click', toggleAvatar);
+  frame.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      toggleAvatar(e);
+    }
+  });
+}
+
+/* --------------------------------------------------------------------------
+   DYNAMIC TOOLS SLIDER - IN-PLACE ICON EXPANSION (SIMPLE TOOL WORD ON TAP)
+   -------------------------------------------------------------------------- */
+function initToolIconExpansion() {
+  const toolIcons = document.querySelectorAll('.tool-icon-item');
+  const marqueeTrack = document.querySelector('.tools-icons-track');
+
+  if (!toolIcons.length) return;
+
+  // Initialize structure for each icon item in the slider
+  toolIcons.forEach(item => {
+    const name = item.getAttribute('data-name') || item.getAttribute('title') || '';
+
+    // Remove any previous status dot
+    const oldDot = item.querySelector('.tool-live-dot');
+    if (oldDot) oldDot.remove();
+
+    // 1. Ensure icon is wrapped in .tool-item-icon-box
+    let iconBox = item.querySelector('.tool-item-icon-box');
+    if (!iconBox) {
+      const icon = item.querySelector('svg, i');
+      if (icon) {
+        iconBox = document.createElement('span');
+        iconBox.className = 'tool-item-icon-box';
+        item.insertBefore(iconBox, icon);
+        iconBox.appendChild(icon);
+      }
+    }
+
+    // 2. Simple expanding label with ONLY the tool name word
+    let label = item.querySelector('.tool-item-label');
+    if (!label) {
+      label = document.createElement('span');
+      label.className = 'tool-item-label';
+      item.appendChild(label);
+    }
+    label.innerHTML = `<span class="tool-label-name">${name}</span>`;
+
+    // Handle tap / click toggle within the icon itself
+    function toggleExpand(e) {
+      if (e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+
+      const wasExpanded = item.classList.contains('is-expanded');
+
+      // Collapse all items first
+      toolIcons.forEach(el => el.classList.remove('is-expanded'));
+
+      if (!wasExpanded) {
+        item.classList.add('is-expanded');
+        if (marqueeTrack) {
+          marqueeTrack.style.animationPlayState = 'paused';
+        }
+      } else {
+        if (marqueeTrack) {
+          marqueeTrack.style.animationPlayState = '';
+        }
+      }
+    }
+
+    item.addEventListener('click', toggleExpand);
+    item.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        toggleExpand(e);
+      }
+    });
+  });
+
+  // Tap anywhere outside the slider collapses any expanded icon and resumes the marquee
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.tools-icons-slider')) {
+      const hadExpanded = document.querySelector('.tool-icon-item.is-expanded');
+      if (hadExpanded) {
+        toolIcons.forEach(el => el.classList.remove('is-expanded'));
+        if (marqueeTrack) {
+          marqueeTrack.style.animationPlayState = '';
+        }
+      }
+    }
+  });
+
+  // Escape key collapses expanded icon
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      const hadExpanded = document.querySelector('.tool-icon-item.is-expanded');
+      if (hadExpanded) {
+        toolIcons.forEach(el => el.classList.remove('is-expanded'));
+        if (marqueeTrack) {
+          marqueeTrack.style.animationPlayState = '';
+        }
+      }
+    }
+  });
+}
 
 /* --------------------------------------------------------------------------
    2. FLOATING NAV SCROLL REVEAL

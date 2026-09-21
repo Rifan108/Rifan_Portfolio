@@ -250,7 +250,7 @@ body {
   width: 100%;
   max-width: 420px;
   height: 480px;
-  cursor: default;
+  cursor: pointer;
   background: transparent;
   display: flex;
   align-items: flex-end;
@@ -258,9 +258,15 @@ body {
   border: none;
   box-shadow: none;
   user-select: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .avatar-img {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) scale(1);
   max-height: 100%;
   max-width: 100%;
   width: auto;
@@ -268,13 +274,52 @@ body {
   object-fit: contain;
   object-position: bottom center;
   filter: none;
-  transition: transform 0.25s ease;
+  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.3s ease;
   display: block;
+  pointer-events: none;
 }
 
-.avatar-frame:hover .avatar-img {
-  transform: scale(1.02);
+.avatar-img-sketch {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+  z-index: 2;
 }
+
+.avatar-img-photo {
+  opacity: 0;
+  transform: translateX(-50%) scale(0.96);
+  z-index: 1;
+}
+
+/* Photo Switch Active State */
+.avatar-frame.show-photo .avatar-img-sketch {
+  opacity: 0;
+  transform: translateX(-50%) scale(0.96);
+  z-index: 1;
+}
+
+.avatar-frame.show-photo .avatar-img-photo {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+  z-index: 2;
+}
+
+/* Interactive Hover Lift (No drop-shadow / card border) */
+.avatar-frame:hover .avatar-img-sketch:not(.avatar-frame.show-photo *),
+.avatar-frame.show-photo:hover .avatar-img-photo {
+  transform: translateX(-50%) scale(1.02);
+  filter: none;
+}
+
+.avatar-frame:focus-visible {
+  outline: 2px solid #111111;
+  outline-offset: 4px;
+  border-radius: 16px;
+}
+
+
 
 /* Social Row + Doodle Line (Exact match to swaaz.dev) */
 .hero-social-row {
@@ -587,6 +632,7 @@ body {
   width: max-content;
   will-change: transform;
   animation: iconsScrollLeft 35s linear infinite;
+  align-items: center;
 }
 
 .tools-icons-slider:hover .tools-icons-track {
@@ -605,29 +651,89 @@ body {
 .tools-icons-content {
   display: flex;
   align-items: center;
-  gap: 48px;
-  padding-right: 48px;
+  gap: 40px;
+  padding-right: 40px;
   flex-shrink: 0;
 }
 
+/* Base Tool Icon Item (Expands in-place into an authentic pill when tapped) */
 .tool-icon-item {
-  display: flex;
+  position: relative;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
   font-size: 34px;
   line-height: 1;
   cursor: pointer;
-  background: none;
-  border: none;
-  box-shadow: none;
-  padding: 6px;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.25s ease;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  padding: 6px 10px;
+  transition: background 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              padding 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   user-select: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  flex-shrink: 0;
 }
 
-.tool-icon-item:hover {
-  transform: scale(1.22) translateY(-3px);
-  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.15));
+.tool-icon-item:hover,
+.tool-icon-item:focus-visible {
+  transform: scale(1.15) translateY(-2px);
+  filter: none;
+}
+
+.tool-item-icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Expanding simple word label within the tapped icon item itself (Clean, pure text, no card) */
+.tool-item-label {
+  display: inline-flex;
+  align-items: center;
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  pointer-events: none;
+  transition: max-width 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.22s ease,
+              padding 0.25s ease;
+  padding-left: 0;
+  font-family: var(--font-main);
+  line-height: 1.2;
+}
+
+.tool-label-name {
+  color: #111111;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+/* State: Tapped & Expanded In-Place - Pure Simple Icon + Word (No card, no black background) */
+.tool-icon-item.is-expanded {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  padding: 4px 6px;
+  transform: scale(1.08);
+}
+
+.tool-icon-item.is-expanded:hover {
+  transform: scale(1.08);
+}
+
+.tool-icon-item.is-expanded .tool-item-label {
+  max-width: 240px;
+  opacity: 1;
+  padding-left: 10px;
 }
 
 .tool-svg {
@@ -1285,6 +1391,10 @@ body {
 
 /* Responsive for NeuroMesh */
 @media (max-width: 1120px) {
+  .top-left-circle-btn {
+    display: none !important;
+  }
+
   .gitgo-card-layout {
     grid-template-columns: 1fr;
     gap: 26px;
@@ -3041,6 +3151,8 @@ body {
   color: #22c55e;
 }
 
+
+
 /* ==========================================================================
    RESPONSIVE BREAKPOINTS (Mobile & Tablet)
    ========================================================================== */
@@ -3140,15 +3252,20 @@ body {
   }
 
   .site-header-brand {
-    font-size: 1.05rem;
-  }
-
-  .btn-header-resume span {
-    display: none;
+    font-size: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .btn-header-resume {
-    padding: 0.35rem 0.65rem;
+    font-size: 0.78rem;
+    padding: 0.35rem 0.8rem;
+    border-radius: 9999px;
+  }
+
+  .btn-header-resume span {
+    display: inline;
   }
 
   .hero-section {
@@ -3158,8 +3275,25 @@ body {
   }
 
   .section {
-    padding: 6vh 0;
+    padding: 6vh 0 6rem;
     min-height: auto;
+  }
+
+  .projects-showcase-container {
+    padding-bottom: 2rem;
+  }
+
+  .project-showcase-item {
+    margin-bottom: 3.5rem;
+  }
+
+  .project-detail-sheet {
+    padding-bottom: 2rem;
+  }
+
+  .footer-section,
+  .contact-section {
+    padding-bottom: 7rem !important;
   }
 
   .giant-section-header {
@@ -3210,11 +3344,35 @@ body {
   .project-showcase-card,
   .project-detail-sheet,
   .projects-list,
-  .timeline-container,
   .about-copy-box,
   .education-card,
   .certifications-container {
     width: 92%;
+  }
+
+  .timeline-container {
+    width: 94%;
+    max-width: 100%;
+    margin: 4vh auto 0;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    box-sizing: border-box;
+  }
+
+  .timeline-container::before {
+    left: 9px !important;
+  }
+
+  .timeline-entry {
+    padding-left: 36px !important;
+    padding-bottom: 5vh;
+  }
+
+  .timeline-circle-marker {
+    left: 0 !important;
+    top: 5px;
+    width: 20px;
+    height: 20px;
   }
 
   .project-showcase-card {
@@ -3375,16 +3533,24 @@ body {
   }
 
   .floating-nav-dock {
-    gap: 0.6rem;
-    padding: 0.45rem 0.85rem;
-    font-size: 0.76rem;
-    width: 94%;
-    max-width: 440px;
-    justify-content: space-between;
+    width: auto;
+    max-width: calc(100vw - 32px);
+    padding: 0.38rem 0.85rem;
+    gap: 0.85rem;
+    font-size: 0.8rem;
+    justify-content: center;
+    bottom: calc(1.15rem + env(safe-area-inset-bottom, 0px));
+    border-radius: 9999px;
+    background: rgba(17, 17, 17, 0.94);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.38);
   }
 
-  .dock-brand {
-    font-size: 0.8rem;
+  .dock-brand,
+  .dock-sep {
+    display: none !important;
   }
 
   .dock-item {
@@ -3393,13 +3559,46 @@ body {
 
   .dock-item[href="#projects"],
   .dock-item[href="#contact"] {
-    display: inline-block;
-    font-size: 0.78rem;
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: #e5e7eb;
+    padding: 4px 6px;
   }
 
-  .dock-resume-btn {
-    font-size: 0.74rem;
-    padding: 0.32rem 0.75rem;
+  .dock-item[href="#projects"]:hover,
+  .dock-item[href="#contact"]:hover {
+    color: #ffffff;
+  }
+
+  .dock-resume-btn,
+  .dock-resume-solid-black {
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 0.35rem 0.82rem;
+    border-radius: 9999px;
+    background: #000000 !important;
+    border: 1px solid #ffffff !important;
+    color: #ffffff !important;
+  }
+
+  .tool-icon-item {
+    font-size: 26px;
+    padding: 4px 8px;
+  }
+
+  .tool-label-name {
+    font-size: 0.88rem;
+    color: #111111;
+  }
+
+  .tool-icon-item.is-expanded {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    padding: 4px 6px;
+    transform: scale(1.06);
   }
 }
 
@@ -3473,8 +3672,15 @@ body {
     padding: 1.4rem 1rem;
   }
 
+  /* No padding-left on timeline container to preserve perfect marker alignment */
   .timeline-container {
-    padding-left: 1.2rem;
+    width: 100%;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .timeline-entry {
+    padding-left: 32px !important;
   }
 
   .sheet-tech-stack-list li {

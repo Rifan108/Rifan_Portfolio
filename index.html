@@ -28,7 +28,7 @@
     integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-  <link rel="stylesheet" href="style.css?v=18">
+  <link rel="stylesheet" href="style.css?v=25">
 </head>
 
 <body>
@@ -77,11 +77,17 @@
             <h1 class="hero-giant-text hero-name">Rifan</h1>
           </div>
 
-          <!-- Hand-Drawn Doodle Avatar (Sketch Only) -->
+          <!-- Hand-Drawn Doodle Avatar (Sketch) + Real Photo with Clean Tap Switch -->
           <div class="hero-avatar-col">
-            <div class="avatar-frame" title="Mohammed Nawaz Rifan - Hand Drawn Doodle Avatar">
-              <img src="assets/avatar.png?v=6" alt="Mohammed Nawaz Rifan - Hand Drawn Doodle Avatar" class="avatar-img"
-                id="avatar-image">
+            <div class="avatar-frame" id="avatar-frame" role="button" tabindex="0"
+              aria-label="Tap to switch between sketch avatar and real portrait photo"
+              title="Click / Tap to switch between Sketch and Photo">
+              <!-- Hand-Drawn Doodle Avatar (Sketch - Default) -->
+              <img src="assets/avatar.png?v=8" alt="Mohammed Nawaz Rifan - Hand Drawn Doodle Avatar"
+                class="avatar-img avatar-img-sketch" id="avatar-image-sketch">
+              <!-- Real Photo Portrait (Clean Studio Alignment) -->
+              <img src="assets/avatar_photo.png?v=8" alt="Mohammed Nawaz Rifan - Professional Portrait"
+                class="avatar-img avatar-img-photo" id="avatar-image-photo">
             </div>
           </div>
 
@@ -220,194 +226,194 @@
           <div class="tools-icons-track">
             <!-- Set A -->
             <div class="tools-icons-content">
-              <div class="tool-icon-item" title="Visual Studio Code" aria-label="VS Code">
+              <div class="tool-icon-item" data-name="Visual Studio Code" data-desc="Code Editor &amp; IDE" role="button" tabindex="0" title="Visual Studio Code" aria-label="Visual Studio Code">
                 <svg viewBox="0 0 24 24" class="tool-svg icon-vscode" fill="currentColor">
                   <path d="M17.5 2.5L7.2 10.9 2.5 7.2 1 8.2v7.6l1.5 1 4.7-3.7 10.3 8.4 4.5-2.1V4.6l-4.5-2.1zM17.5 18L9.2 12l8.3-6v12z"/>
                 </svg>
               </div>
 
-              <div class="tool-icon-item" title="GitHub" aria-label="GitHub">
+              <div class="tool-icon-item" data-name="GitHub" data-desc="Version Control &amp; CI/CD" role="button" tabindex="0" title="GitHub" aria-label="GitHub">
                 <i class="fa-brands fa-github icon-github"></i>
               </div>
 
-              <div class="tool-icon-item" title="Android Studio" aria-label="Android Studio">
+              <div class="tool-icon-item" data-name="Android Studio" data-desc="Android Mobile Development IDE" role="button" tabindex="0" title="Android Studio" aria-label="Android Studio">
                 <i class="fa-brands fa-android icon-android"></i>
               </div>
 
-              <div class="tool-icon-item" title="Flutter SDK" aria-label="Flutter">
+              <div class="tool-icon-item" data-name="Flutter SDK" data-desc="Cross-Platform Mobile Framework" role="button" tabindex="0" title="Flutter SDK" aria-label="Flutter SDK">
                 <svg viewBox="0 0 24 24" class="tool-svg icon-flutter" fill="currentColor">
                   <path d="M14.314 0L2.3 12 6 15.7 21.714 0h-7.4zm0 9.429L8.6 15.143l3.7 3.714 5.714-5.714 3.7 3.714-5.714 5.714L19.7 26.286h7.428l-7.428-7.429 3.714-3.714-9.1-9.143z" transform="scale(0.8) translate(3, 1)"/>
                 </svg>
               </div>
 
-              <div class="tool-icon-item" title="Firebase" aria-label="Firebase">
+              <div class="tool-icon-item" data-name="Firebase" data-desc="Authentication &amp; Real-time Database" role="button" tabindex="0" title="Firebase" aria-label="Firebase">
                 <i class="fa-solid fa-fire icon-firebase"></i>
               </div>
 
-              <div class="tool-icon-item" title="Dart" aria-label="Dart">
+              <div class="tool-icon-item" data-name="Dart" data-desc="Client-Optimized OOP Language" role="button" tabindex="0" title="Dart" aria-label="Dart">
                 <svg viewBox="0 0 24 24" class="tool-svg icon-dart" fill="currentColor">
                   <path d="M4.1 3.2L13.8 0l6.1 6.1-9.7 9.7L4.1 3.2zm6.1 14.5l-6.1-6.1-2.9 2.9L8.3 24l5.8-3.4-3.9-2.9zm9.7-9.7l4.1 4.1-8.3 8.3-4.1-4.1 8.3-8.3z"/>
                 </svg>
               </div>
 
-              <div class="tool-icon-item" title="Python" aria-label="Python">
+              <div class="tool-icon-item" data-name="Python" data-desc="Backend, APIs &amp; AI Engineering" role="button" tabindex="0" title="Python" aria-label="Python">
                 <i class="fa-brands fa-python icon-python"></i>
               </div>
 
-              <div class="tool-icon-item" title="Git" aria-label="Git">
+              <div class="tool-icon-item" data-name="Git" data-desc="Distributed Version Control" role="button" tabindex="0" title="Git" aria-label="Git">
                 <i class="fa-brands fa-git-alt icon-git"></i>
               </div>
 
-              <div class="tool-icon-item" title="Postman" aria-label="Postman">
+              <div class="tool-icon-item" data-name="Postman" data-desc="API Testing, Design &amp; Mocking" role="button" tabindex="0" title="Postman" aria-label="Postman">
                 <i class="fa-solid fa-paper-plane icon-postman"></i>
               </div>
 
-              <div class="tool-icon-item" title="Figma" aria-label="Figma">
+              <div class="tool-icon-item" data-name="Figma" data-desc="UI/UX Design &amp; Interactive Prototyping" role="button" tabindex="0" title="Figma" aria-label="Figma">
                 <i class="fa-brands fa-figma icon-figma"></i>
               </div>
 
-              <div class="tool-icon-item" title="Docker" aria-label="Docker">
+              <div class="tool-icon-item" data-name="Docker" data-desc="Containerization &amp; DevOps" role="button" tabindex="0" title="Docker" aria-label="Docker">
                 <i class="fa-brands fa-docker icon-docker"></i>
               </div>
 
-              <div class="tool-icon-item" title="LangGraph Agentic AI" aria-label="LangGraph">
+              <div class="tool-icon-item" data-name="LangGraph" data-desc="Multi-Agent AI Systems &amp; Graphs" role="button" tabindex="0" title="LangGraph Agentic AI" aria-label="LangGraph">
                 <i class="fa-solid fa-brain icon-langgraph"></i>
               </div>
 
-              <div class="tool-icon-item" title="FastAPI" aria-label="FastAPI">
+              <div class="tool-icon-item" data-name="FastAPI" data-desc="Modern Asynchronous Python APIs" role="button" tabindex="0" title="FastAPI" aria-label="FastAPI">
                 <i class="fa-solid fa-bolt icon-fastapi"></i>
               </div>
 
-              <div class="tool-icon-item" title="ESP32 &amp; LoRa" aria-label="ESP32 and LoRa">
+              <div class="tool-icon-item" data-name="ESP32 &amp; LoRa" data-desc="Hardware Mesh Networks &amp; IoT" role="button" tabindex="0" title="ESP32 &amp; LoRa" aria-label="ESP32 and LoRa">
                 <i class="fa-solid fa-microchip icon-esp32"></i>
               </div>
 
-              <div class="tool-icon-item" title="Linux" aria-label="Linux">
+              <div class="tool-icon-item" data-name="Linux" data-desc="Systems, Shell &amp; Infrastructure" role="button" tabindex="0" title="Linux" aria-label="Linux">
                 <i class="fa-brands fa-linux icon-linux"></i>
               </div>
 
-              <div class="tool-icon-item" title="PostgreSQL" aria-label="PostgreSQL">
+              <div class="tool-icon-item" data-name="PostgreSQL" data-desc="Relational SQL Database Engine" role="button" tabindex="0" title="PostgreSQL" aria-label="PostgreSQL">
                 <i class="fa-solid fa-database icon-postgres"></i>
               </div>
 
-              <div class="tool-icon-item" title="Node.js" aria-label="Node.js">
+              <div class="tool-icon-item" data-name="Node.js" data-desc="Asynchronous JavaScript Runtime" role="button" tabindex="0" title="Node.js" aria-label="Node.js">
                 <i class="fa-brands fa-node-js icon-node"></i>
               </div>
 
-              <div class="tool-icon-item" title="MongoDB" aria-label="MongoDB">
+              <div class="tool-icon-item" data-name="MongoDB" data-desc="High-Performance NoSQL Database" role="button" tabindex="0" title="MongoDB" aria-label="MongoDB">
                 <i class="fa-solid fa-leaf icon-mongo"></i>
               </div>
 
-              <div class="tool-icon-item" title="Xcode" aria-label="Xcode">
+              <div class="tool-icon-item" data-name="Xcode" data-desc="Apple iOS / macOS Development" role="button" tabindex="0" title="Xcode" aria-label="Xcode">
                 <i class="fa-brands fa-apple icon-xcode"></i>
               </div>
 
-              <div class="tool-icon-item" title="WebSockets" aria-label="WebSockets">
+              <div class="tool-icon-item" data-name="WebSockets" data-desc="Full-Duplex Real-Time Data Streams" role="button" tabindex="0" title="WebSockets" aria-label="WebSockets">
                 <i class="fa-solid fa-network-wired icon-websockets"></i>
               </div>
 
-              <div class="tool-icon-item" title="Solidity" aria-label="Solidity">
+              <div class="tool-icon-item" data-name="Solidity" data-desc="Ethereum Smart Contracts &amp; DApps" role="button" tabindex="0" title="Solidity" aria-label="Solidity">
                 <i class="fa-brands fa-ethereum icon-solidity"></i>
               </div>
 
-              <div class="tool-icon-item" title="C / C++" aria-label="C / C++">
+              <div class="tool-icon-item" data-name="C / C++" data-desc="Low-Level Systems &amp; Fast Algorithms" role="button" tabindex="0" title="C / C++" aria-label="C / C++">
                 <i class="fa-solid fa-code icon-cpp"></i>
               </div>
             </div>
 
             <!-- Set B (Duplicate for seamless infinite loop) -->
             <div class="tools-icons-content" aria-hidden="true">
-              <div class="tool-icon-item" title="Visual Studio Code">
+              <div class="tool-icon-item" data-name="Visual Studio Code" data-desc="Code Editor &amp; IDE" role="button" tabindex="0" title="Visual Studio Code">
                 <svg viewBox="0 0 24 24" class="tool-svg icon-vscode" fill="currentColor">
                   <path d="M17.5 2.5L7.2 10.9 2.5 7.2 1 8.2v7.6l1.5 1 4.7-3.7 10.3 8.4 4.5-2.1V4.6l-4.5-2.1zM17.5 18L9.2 12l8.3-6v12z"/>
                 </svg>
               </div>
 
-              <div class="tool-icon-item" title="GitHub">
+              <div class="tool-icon-item" data-name="GitHub" data-desc="Version Control &amp; CI/CD" role="button" tabindex="0" title="GitHub">
                 <i class="fa-brands fa-github icon-github"></i>
               </div>
 
-              <div class="tool-icon-item" title="Android Studio">
+              <div class="tool-icon-item" data-name="Android Studio" data-desc="Android Mobile Development IDE" role="button" tabindex="0" title="Android Studio">
                 <i class="fa-brands fa-android icon-android"></i>
               </div>
 
-              <div class="tool-icon-item" title="Flutter SDK">
+              <div class="tool-icon-item" data-name="Flutter SDK" data-desc="Cross-Platform Mobile Framework" role="button" tabindex="0" title="Flutter SDK">
                 <svg viewBox="0 0 24 24" class="tool-svg icon-flutter" fill="currentColor">
                   <path d="M14.314 0L2.3 12 6 15.7 21.714 0h-7.4zm0 9.429L8.6 15.143l3.7 3.714 5.714-5.714 3.7 3.714-5.714 5.714L19.7 26.286h7.428l-7.428-7.429 3.714-3.714-9.1-9.143z" transform="scale(0.8) translate(3, 1)"/>
                 </svg>
               </div>
 
-              <div class="tool-icon-item" title="Firebase">
+              <div class="tool-icon-item" data-name="Firebase" data-desc="Authentication &amp; Real-time Database" role="button" tabindex="0" title="Firebase">
                 <i class="fa-solid fa-fire icon-firebase"></i>
               </div>
 
-              <div class="tool-icon-item" title="Dart">
+              <div class="tool-icon-item" data-name="Dart" data-desc="Client-Optimized OOP Language" role="button" tabindex="0" title="Dart">
                 <svg viewBox="0 0 24 24" class="tool-svg icon-dart" fill="currentColor">
                   <path d="M4.1 3.2L13.8 0l6.1 6.1-9.7 9.7L4.1 3.2zm6.1 14.5l-6.1-6.1-2.9 2.9L8.3 24l5.8-3.4-3.9-2.9zm9.7-9.7l4.1 4.1-8.3 8.3-4.1-4.1 8.3-8.3z"/>
                 </svg>
               </div>
 
-              <div class="tool-icon-item" title="Python">
+              <div class="tool-icon-item" data-name="Python" data-desc="Backend, APIs &amp; AI Engineering" role="button" tabindex="0" title="Python">
                 <i class="fa-brands fa-python icon-python"></i>
               </div>
 
-              <div class="tool-icon-item" title="Git">
+              <div class="tool-icon-item" data-name="Git" data-desc="Distributed Version Control" role="button" tabindex="0" title="Git">
                 <i class="fa-brands fa-git-alt icon-git"></i>
               </div>
 
-              <div class="tool-icon-item" title="Postman">
+              <div class="tool-icon-item" data-name="Postman" data-desc="API Testing, Design &amp; Mocking" role="button" tabindex="0" title="Postman">
                 <i class="fa-solid fa-paper-plane icon-postman"></i>
               </div>
 
-              <div class="tool-icon-item" title="Figma">
+              <div class="tool-icon-item" data-name="Figma" data-desc="UI/UX Design &amp; Interactive Prototyping" role="button" tabindex="0" title="Figma">
                 <i class="fa-brands fa-figma icon-figma"></i>
               </div>
 
-              <div class="tool-icon-item" title="Docker">
+              <div class="tool-icon-item" data-name="Docker" data-desc="Containerization &amp; DevOps" role="button" tabindex="0" title="Docker">
                 <i class="fa-brands fa-docker icon-docker"></i>
               </div>
 
-              <div class="tool-icon-item" title="LangGraph Agentic AI">
+              <div class="tool-icon-item" data-name="LangGraph" data-desc="Multi-Agent AI Systems &amp; Graphs" role="button" tabindex="0" title="LangGraph Agentic AI">
                 <i class="fa-solid fa-brain icon-langgraph"></i>
               </div>
 
-              <div class="tool-icon-item" title="FastAPI">
+              <div class="tool-icon-item" data-name="FastAPI" data-desc="Modern Asynchronous Python APIs" role="button" tabindex="0" title="FastAPI">
                 <i class="fa-solid fa-bolt icon-fastapi"></i>
               </div>
 
-              <div class="tool-icon-item" title="ESP32 &amp; LoRa">
+              <div class="tool-icon-item" data-name="ESP32 &amp; LoRa" data-desc="Hardware Mesh Networks &amp; IoT" role="button" tabindex="0" title="ESP32 &amp; LoRa">
                 <i class="fa-solid fa-microchip icon-esp32"></i>
               </div>
 
-              <div class="tool-icon-item" title="Linux">
+              <div class="tool-icon-item" data-name="Linux" data-desc="Systems, Shell &amp; Infrastructure" role="button" tabindex="0" title="Linux">
                 <i class="fa-brands fa-linux icon-linux"></i>
               </div>
 
-              <div class="tool-icon-item" title="PostgreSQL">
+              <div class="tool-icon-item" data-name="PostgreSQL" data-desc="Relational SQL Database Engine" role="button" tabindex="0" title="PostgreSQL">
                 <i class="fa-solid fa-database icon-postgres"></i>
               </div>
 
-              <div class="tool-icon-item" title="Node.js">
+              <div class="tool-icon-item" data-name="Node.js" data-desc="Asynchronous JavaScript Runtime" role="button" tabindex="0" title="Node.js">
                 <i class="fa-brands fa-node-js icon-node"></i>
               </div>
 
-              <div class="tool-icon-item" title="MongoDB">
+              <div class="tool-icon-item" data-name="MongoDB" data-desc="High-Performance NoSQL Database" role="button" tabindex="0" title="MongoDB">
                 <i class="fa-solid fa-leaf icon-mongo"></i>
               </div>
 
-              <div class="tool-icon-item" title="Xcode">
+              <div class="tool-icon-item" data-name="Xcode" data-desc="Apple iOS / macOS Development" role="button" tabindex="0" title="Xcode">
                 <i class="fa-brands fa-apple icon-xcode"></i>
               </div>
 
-              <div class="tool-icon-item" title="WebSockets">
+              <div class="tool-icon-item" data-name="WebSockets" data-desc="Full-Duplex Real-Time Data Streams" role="button" tabindex="0" title="WebSockets">
                 <i class="fa-solid fa-network-wired icon-websockets"></i>
               </div>
 
-              <div class="tool-icon-item" title="Solidity">
+              <div class="tool-icon-item" data-name="Solidity" data-desc="Ethereum Smart Contracts &amp; DApps" role="button" tabindex="0" title="Solidity">
                 <i class="fa-brands fa-ethereum icon-solidity"></i>
               </div>
 
-              <div class="tool-icon-item" title="C / C++">
+              <div class="tool-icon-item" data-name="C / C++" data-desc="Low-Level Systems &amp; Fast Algorithms" role="button" tabindex="0" title="C / C++">
                 <i class="fa-solid fa-code icon-cpp"></i>
               </div>
             </div>
@@ -1517,6 +1523,7 @@
       class="dock-resume-btn dock-resume-solid-black" title="View &amp; Download Resume">Resume ↗</a>
   </nav>
 
+
   <!-- TOAST NOTIFICATION -->
   <div class="toast" id="toast" role="status" aria-live="polite">
     <i class="fa-solid fa-check-circle toast-icon"></i>
@@ -1544,7 +1551,7 @@
     </div>
   </div>
 
-  <script src="script.js?v=16"></script>
+  <script src="script.js?v=20"></script>
 </body>
 
 </html>
