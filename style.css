@@ -3281,11 +3281,12 @@ img, video, canvas, svg {
   }
 
   .site-header-brand {
-    font-size: clamp(0.92rem, 3.8vw, 1.08rem) !important;
+    font-size: clamp(0.88rem, 3.6vw, 1.05rem) !important;
     white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    max-width: 65% !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    max-width: none !important;
+    flex-shrink: 0 !important;
   }
 
   .btn-header-resume {
@@ -3319,6 +3320,9 @@ img, video, canvas, svg {
   .section-center {
     width: 100% !important;
     max-width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
     padding: 0 !important;
     box-sizing: border-box !important;
   }
@@ -3586,61 +3590,150 @@ img, video, canvas, svg {
   .timeline-container {
     width: 100% !important;
     max-width: 100% !important;
-    margin: 3vh auto 0 !important;
-    padding-left: 1.35rem !important;
-    padding-right: 1.25rem !important;
+    margin: 2.2rem 0 0 0 !important;
+    padding: 0 !important;
     box-sizing: border-box !important;
+    align-self: stretch !important;
+    position: relative !important;
   }
 
   .timeline-container::before {
-    left: 1.35rem !important;
-  }
-
-  .timeline-circle-marker {
-    left: calc(1.35rem - 9px) !important;
-    top: 5px !important;
-    width: 20px !important;
-    height: 20px !important;
+    content: "" !important;
+    position: absolute !important;
+    top: 8px !important;
+    bottom: 8px !important;
+    left: 10px !important;
+    width: 2px !important;
+    background: #e5e7eb !important;
+    z-index: 1 !important;
   }
 
   .timeline-entry {
-    padding-left: 26px !important;
+    position: relative !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: 36px !important;
     padding-right: 0 !important;
-    padding-bottom: 2.8rem !important;
+    padding-bottom: 2.4rem !important;
     box-sizing: border-box !important;
-    overflow-wrap: break-word !important;
-    word-break: break-word !important;
+    text-align: left !important;
+  }
+
+  .timeline-entry:last-child {
+    padding-bottom: 0 !important;
+  }
+
+  .timeline-circle-marker {
+    position: absolute !important;
+    left: 0px !important;
+    top: 3px !important;
+    width: 20px !important;
+    height: 20px !important;
+    border-radius: 50% !important;
+    background: #ffffff !important;
+    border: 2.5px solid #111111 !important;
+    box-sizing: border-box !important;
+    z-index: 2 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+  }
+
+  .timeline-circle-marker::after {
+    content: "" !important;
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 50% !important;
+    background: #111111 !important;
+    display: block !important;
+  }
+
+  .timeline-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
   }
 
   .timeline-role {
-    font-size: clamp(1.1rem, 4.6vw, 1.4rem) !important;
+    font-size: clamp(1.08rem, 4.4vw, 1.35rem) !important;
+    font-weight: 700 !important;
     line-height: 1.35 !important;
     letter-spacing: -0.015em !important;
+    color: #111111 !important;
+    margin: 0 !important;
+    word-break: normal !important;
     overflow-wrap: break-word !important;
-    word-break: break-word !important;
   }
 
   .timeline-company-row {
     display: flex !important;
     flex-wrap: wrap !important;
-    gap: 4px 8px !important;
+    align-items: baseline !important;
+    gap: 3px 8px !important;
     margin: 4px 0 10px !important;
+    width: 100% !important;
   }
 
   .company-bold {
-    font-size: clamp(0.92rem, 3.8vw, 1.1rem) !important;
+    font-size: clamp(0.92rem, 3.6vw, 1.05rem) !important;
+    font-weight: 600 !important;
+    color: #111111 !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
   }
 
   .timeline-date-loc {
-    font-size: clamp(0.82rem, 3.2vw, 0.95rem) !important;
+    font-size: clamp(0.82rem, 3.2vw, 0.92rem) !important;
+    color: #6b7280 !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
   }
 
-  .award-text,
-  .timeline-bullets {
+  .award-text {
     font-size: 0.92rem !important;
     line-height: 1.55 !important;
+    color: #374151 !important;
+    margin-top: 6px !important;
+    word-break: normal !important;
     overflow-wrap: break-word !important;
-    word-break: break-word !important;
+  }
+
+  .timeline-bullets {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 8px 0 0 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+    width: 100% !important;
+  }
+
+  .bullet-item {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .bullet-arrow {
+    color: #111111 !important;
+    font-size: 0.95rem !important;
+    line-height: 1.5 !important;
+    flex-shrink: 0 !important;
+    margin-top: 1px !important;
+  }
+
+  .bullet-text {
+    font-size: 0.92rem !important;
+    line-height: 1.55 !important;
+    color: #374151 !important;
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    word-break: normal !important;
+    overflow-wrap: break-word !important;
   }
 
   .showcase-card-body {
@@ -3713,27 +3806,26 @@ img, video, canvas, svg {
   /* Fixed Floating Bottom Navigation Bar */
   .floating-nav-dock {
     position: fixed !important;
-    bottom: calc(0.85rem + env(safe-area-inset-bottom, 0px)) !important;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px)) !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     opacity: 1 !important;
     pointer-events: auto !important;
     z-index: 1000 !important;
     width: auto !important;
-    max-width: calc(100vw - 24px) !important;
-    padding: 0.42rem 0.95rem !important;
+    max-width: calc(100vw - 20px) !important;
+    padding: 5px 10px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 0.65rem !important;
+    gap: 0.4rem !important;
     border-radius: 9999px !important;
-    background: rgba(17, 17, 17, 0.94) !important;
+    background: rgba(17, 17, 17, 0.95) !important;
     backdrop-filter: blur(16px) !important;
     -webkit-backdrop-filter: blur(16px) !important;
     border: 1px solid rgba(255, 255, 255, 0.18) !important;
-    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.45) !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45) !important;
     box-sizing: border-box !important;
-    transition: bottom 0.25s ease, opacity 0.25s ease !important;
   }
 
   .dock-brand,
@@ -3746,20 +3838,29 @@ img, video, canvas, svg {
   }
 
   .dock-item[href="#projects"],
+  .dock-item[href="#awards"],
   .dock-item[href="#contact"] {
     display: inline-flex !important;
     align-items: center !important;
-    font-size: 0.85rem !important;
+    justify-content: center !important;
+    font-size: 0.82rem !important;
     font-weight: 500 !important;
     color: #e5e7eb !important;
-    padding: 6px 8px !important;
+    padding: 6px 9px !important;
     text-decoration: none !important;
     min-height: 34px !important;
+    border-radius: 9999px !important;
+    transition: color 0.15s ease, background 0.15s ease !important;
   }
 
   .dock-item[href="#projects"]:hover,
-  .dock-item[href="#contact"]:hover {
+  .dock-item[href="#awards"]:hover,
+  .dock-item[href="#contact"]:hover,
+  .dock-item[href="#projects"]:active,
+  .dock-item[href="#awards"]:active,
+  .dock-item[href="#contact"]:active {
     color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.12) !important;
   }
 
   .dock-resume-btn,
