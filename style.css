@@ -34,8 +34,8 @@ html {
   background-color: var(--color-bg);
   color: var(--color-text-dark);
   overflow-x: hidden;
-  overflow-x: clip;
   max-width: 100%;
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
@@ -44,7 +44,6 @@ body {
   color: var(--color-text-dark);
   line-height: 1.6;
   overflow-x: hidden;
-  overflow-x: clip;
   max-width: 100%;
   -webkit-font-smoothing: antialiased;
 }
@@ -280,7 +279,7 @@ img, video, canvas, svg {
   position: absolute;
   bottom: 0;
   left: 50%;
-  transform: translateX(-50%) scale(1);
+  transform: translate3d(-50%, 0, 0);
   max-height: 100%;
   max-width: 100%;
   width: auto;
@@ -288,43 +287,43 @@ img, video, canvas, svg {
   object-fit: contain;
   object-position: bottom center;
   filter: none;
-  transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-              filter 0.3s ease;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   display: block;
   pointer-events: none;
+  will-change: opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .avatar-img-sketch {
   opacity: 1;
-  transform: translateX(-50%) scale(1);
   z-index: 2;
 }
 
 .avatar-img-photo {
   opacity: 0;
-  transform: translateX(-50%) scale(0.96);
   z-index: 1;
 }
 
 /* Photo Switch Active State */
 .avatar-frame.show-photo .avatar-img-sketch {
   opacity: 0;
-  transform: translateX(-50%) scale(0.96);
   z-index: 1;
 }
 
 .avatar-frame.show-photo .avatar-img-photo {
   opacity: 1;
-  transform: translateX(-50%) scale(1);
   z-index: 2;
 }
 
-/* Interactive Hover Lift (No drop-shadow / card border) */
-.avatar-frame:hover .avatar-img-sketch:not(.avatar-frame.show-photo *),
-.avatar-frame.show-photo:hover .avatar-img-photo {
-  transform: translateX(-50%) scale(1.02);
-  filter: none;
+/* Interactive Hover Lift: Only on desktop devices with hover & fine pointer */
+@media (hover: hover) and (pointer: fine) {
+  .avatar-frame {
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .avatar-frame:hover {
+    transform: translateY(-4px);
+  }
 }
 
 .avatar-frame:focus-visible {
@@ -3302,19 +3301,24 @@ img, video, canvas, svg {
   .hero-section {
     width: 100% !important;
     max-width: 100% !important;
-    min-height: auto;
-    padding: 3vh 1rem 2vh !important;
+    min-height: auto !important;
+    padding: 2.2rem 1rem 1.8rem 1rem !important;
     box-sizing: border-box !important;
   }
 
-  .section {
-    padding: 4.5rem 1rem 6rem 1rem !important;
+  .section,
+  .awards-section,
+  .certifications-section,
+  .education-section,
+  .contact-section,
+  .projects-section,
+  .skills-section {
     min-height: auto !important;
+    padding: 3.5rem 1rem 4.5rem 1rem !important;
     width: 100% !important;
     max-width: 100% !important;
     box-sizing: border-box !important;
-    overflow-x: hidden !important;
-    overflow-x: clip !important;
+    overflow: visible !important;
   }
 
   .section-center {
@@ -3338,7 +3342,7 @@ img, video, canvas, svg {
   .hero-content-row {
     flex-direction: column-reverse;
     align-items: center;
-    gap: 2.5rem;
+    gap: 2.2rem;
   }
 
   .hero-text-col,
@@ -3355,15 +3359,67 @@ img, video, canvas, svg {
   }
 
   .avatar-frame {
-    max-width: 280px;
-    height: 320px;
-    margin: 0 auto;
+    width: 270px !important;
+    max-width: 270px !important;
+    height: 310px !important;
+    margin: 0 auto !important;
+    position: relative !important;
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+
+  .avatar-img {
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 50% !important;
+    transform: translate3d(-50%, 0, 0) !important;
+    width: auto !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    max-width: 100% !important;
+    object-fit: contain !important;
+    object-position: bottom center !important;
+    transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    will-change: opacity !important;
+    backface-visibility: hidden !important;
+    -webkit-backface-visibility: hidden !important;
+  }
+
+  .avatar-img-sketch {
+    opacity: 1 !important;
+    z-index: 2 !important;
+  }
+
+  .avatar-img-photo {
+    opacity: 0 !important;
+    z-index: 1 !important;
+  }
+
+  .avatar-frame.show-photo .avatar-img-sketch {
+    opacity: 0 !important;
+    z-index: 1 !important;
+  }
+
+  .avatar-frame.show-photo .avatar-img-photo {
+    opacity: 1 !important;
+    z-index: 2 !important;
   }
 
   .hero-social-row {
-    justify-content: center;
-    gap: 1.1rem;
-    margin-top: 2.5vh;
+    justify-content: center !important;
+    gap: 1.1rem !important;
+    margin-top: 1.5rem !important;
+  }
+
+  /* Tools slider: remove gradient mask on mobile to eliminate WebKit scroll stutter */
+  .tools-icons-slider {
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+    margin: 1.8rem auto 1.2rem auto !important;
+  }
+
+  .tools-icons-track {
+    transform: translate3d(0, 0, 0) !important;
   }
 
   .doodle-line-wrap {
@@ -3791,12 +3847,30 @@ img, video, canvas, svg {
     padding: 2rem 1.5rem;
   }
 
+  /* Center "Say hello!" on mobile */
+  .contact-say-hello-wrap {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    width: 100% !important;
+    margin: 2.2rem auto 1.6rem auto !important;
+  }
+
+  .say-hello-link {
+    display: inline-block !important;
+    text-align: center !important;
+    margin: 0 auto !important;
+    font-size: clamp(2.2rem, 8.5vw, 3rem) !important;
+  }
+
   .direct-contacts-row {
     flex-direction: column !important;
     align-items: center !important;
     gap: 0.85rem !important;
     width: 100% !important;
     max-width: 100% !important;
+    margin-top: 1.5rem !important;
   }
 
   .direct-contacts-row .sep-dot {

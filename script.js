@@ -212,13 +212,11 @@ function initFloatingNav() {
   if (!dock) return;
 
   function updateDock() {
-    // On mobile devices (<= 768px), keep bottom navigation bar fixed and always visible
     if (window.innerWidth <= 768) {
       dock.classList.add('visible');
       return;
     }
 
-    // On desktop, reveal floating dock after scrolling past the hero
     if (window.scrollY > 220) {
       dock.classList.add('visible');
     } else {
@@ -226,7 +224,11 @@ function initFloatingNav() {
     }
   }
 
-  window.addEventListener('scroll', updateDock, { passive: true });
+  window.addEventListener('scroll', () => {
+    if (window.innerWidth > 768) {
+      updateDock();
+    }
+  }, { passive: true });
   window.addEventListener('resize', updateDock, { passive: true });
   updateDock();
 }
