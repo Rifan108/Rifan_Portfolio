@@ -86,8 +86,33 @@ function initAvatarSwitcher() {
 function initToolIconExpansion() {
   const toolIcons = document.querySelectorAll('.tool-icon-item');
   const marqueeTrack = document.querySelector('.tools-icons-track');
+  const slider = document.querySelector('.tools-icons-slider');
 
-  if (!toolIcons.length) return;
+  if (!toolIcons.length || !marqueeTrack) return;
+
+  // Ensure track starts in running state
+  marqueeTrack.style.animationPlayState = 'running';
+
+  let autoResumeTimer = null;
+
+  function resumeScroll() {
+    clearTimeout(autoResumeTimer);
+    toolIcons.forEach(el => el.classList.remove('is-expanded'));
+    if (marqueeTrack) {
+      marqueeTrack.style.animationPlayState = 'running';
+    }
+  }
+
+  function pauseScroll() {
+    clearTimeout(autoResumeTimer);
+    if (marqueeTrack) {
+      marqueeTrack.style.animationPlayState = 'paused';
+    }
+    // Auto-resume after 4.5s if left untouched so slider never stays frozen
+    autoResumeTimer = setTimeout(() => {
+      resumeScroll();
+    }, 4500);
+  }
 
   // Initialize structure for each icon item in the slider
   toolIcons.forEach(item => {
@@ -127,18 +152,14 @@ function initToolIconExpansion() {
 
       const wasExpanded = item.classList.contains('is-expanded');
 
-      // Collapse all items first
-      toolIcons.forEach(el => el.classList.remove('is-expanded'));
-
       if (!wasExpanded) {
+        // Expand this item and pause track
+        toolIcons.forEach(el => el.classList.remove('is-expanded'));
         item.classList.add('is-expanded');
-        if (marqueeTrack) {
-          marqueeTrack.style.animationPlayState = 'paused';
-        }
+        pauseScroll();
       } else {
-        if (marqueeTrack) {
-          marqueeTrack.style.animationPlayState = '';
-        }
+        // UNTAP: Collapse immediately and RESUME SCROLLING!
+        resumeScroll();
       }
     }
 
@@ -150,31 +171,37 @@ function initToolIconExpansion() {
     });
   });
 
-  // Tap anywhere outside the slider collapses any expanded icon and resumes the marquee
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('.tools-icons-slider')) {
-      const hadExpanded = document.querySelector('.tool-icon-item.is-expanded');
-      if (hadExpanded) {
-        toolIcons.forEach(el => el.classList.remove('is-expanded'));
-        if (marqueeTrack) {
-          marqueeTrack.style.animationPlayState = '';
+  // Tap anywhere outside the slider collapses and resumes scrolling
+  ['click', 'touchend'].forEach(evt => {
+    document.addEventListener(evt, (e) => {
+      if (!e.target.closest('.tools-icons-slider')) {
+        const hadExpanded = document.querySelector('.tool-icon-item.is-expanded');
+        if (hadExpanded) {
+          resumeScroll();
         }
       }
-    }
+    }, { passive: true });
   });
 
-  // Escape key collapses expanded icon
+  // Escape key collapses expanded icon and resumes scrolling
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       const hadExpanded = document.querySelector('.tool-icon-item.is-expanded');
       if (hadExpanded) {
-        toolIcons.forEach(el => el.classList.remove('is-expanded'));
-        if (marqueeTrack) {
-          marqueeTrack.style.animationPlayState = '';
-        }
+        resumeScroll();
       }
     }
   });
+
+  // When mouse leaves slider on desktop, ensure scrolling resumes if nothing is expanded
+  if (slider) {
+    slider.addEventListener('mouseleave', () => {
+      const hadExpanded = document.querySelector('.tool-icon-item.is-expanded');
+      if (!hadExpanded && marqueeTrack) {
+        marqueeTrack.style.animationPlayState = 'running';
+      }
+    });
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -184,7 +211,14 @@ function initFloatingNav() {
   const dock = document.getElementById('floating-nav');
   if (!dock) return;
 
-  function handleScroll() {
+  function updateDock() {
+    // On mobile devices (<= 768px), keep bottom navigation bar fixed and always visible
+    if (window.innerWidth <= 768) {
+      dock.classList.add('visible');
+      return;
+    }
+
+    // On desktop, reveal floating dock after scrolling past the hero
     if (window.scrollY > 220) {
       dock.classList.add('visible');
     } else {
@@ -192,8 +226,9 @@ function initFloatingNav() {
     }
   }
 
-  window.addEventListener('scroll', handleScroll, { passive: true });
-  handleScroll();
+  window.addEventListener('scroll', updateDock, { passive: true });
+  window.addEventListener('resize', updateDock, { passive: true });
+  updateDock();
 }
 
 /* --------------------------------------------------------------------------

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>NeuroMesh | Disaster Mesh Telemetry</title>
 
   <!-- Google Fonts: Inter, JetBrains Mono -->
@@ -518,10 +518,36 @@
         font-size: 14px;
       }
       .title-neuromesh {
-        font-size: 46px;
+        font-size: 38px;
       }
       .subtitle-neuromesh {
-        font-size: 17px;
+        font-size: 15px;
+      }
+      .panel-header {
+        flex-wrap: wrap;
+        gap: 6px 8px;
+      }
+      .panel-title {
+        font-size: clamp(13px, 3.8vw, 16px);
+        white-space: normal;
+        line-height: 1.25;
+      }
+      .live-badge {
+        font-size: 11px;
+        padding: 3px 8px;
+        flex-shrink: 0;
+      }
+      .dashboard-panel {
+        width: 100%;
+        max-width: 100%;
+        padding: 14px 10px;
+        box-sizing: border-box;
+      }
+      .hero-card {
+        width: 100%;
+        max-width: 100%;
+        padding: 28px 14px 24px 14px;
+        box-sizing: border-box;
       }
     }
   </style>
