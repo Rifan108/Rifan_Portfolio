@@ -94,6 +94,8 @@ function initToolIconExpansion() {
   marqueeTrack.style.animationPlayState = 'running';
 
   let autoResumeTimer = null;
+  let lastTouchEndTime = 0;
+  let activeTouchItem = null;
 
   function resumeScroll() {
     clearTimeout(autoResumeTimer);
@@ -108,10 +110,39 @@ function initToolIconExpansion() {
     if (marqueeTrack) {
       marqueeTrack.style.animationPlayState = 'paused';
     }
-    // Auto-resume after 4.5s if left untouched so slider never stays frozen
+    // Auto-resume after 5s if left untouched so slider never stays frozen indefinitely
     autoResumeTimer = setTimeout(() => {
       resumeScroll();
-    }, 4500);
+    }, 5000);
+  }
+
+  // Freeze marquee track immediately on any touch interaction in the slider
+  if (slider) {
+    slider.addEventListener('touchstart', () => {
+      pauseScroll();
+    }, { passive: true });
+  }
+
+  // Toggle expansion for a specific icon item
+  function toggleExpand(targetItem, e) {
+    if (e && e.cancelable) {
+      e.preventDefault();
+    }
+    if (e) {
+      e.stopPropagation();
+    }
+
+    const wasExpanded = targetItem.classList.contains('is-expanded');
+
+    // Collapse any previously expanded item first
+    toolIcons.forEach(el => el.classList.remove('is-expanded'));
+
+    if (!wasExpanded) {
+      targetItem.classList.add('is-expanded');
+      pauseScroll();
+    } else {
+      resumeScroll();
+    }
   }
 
   // Initialize structure for each icon item in the slider
@@ -143,59 +174,54 @@ function initToolIconExpansion() {
     }
     label.innerHTML = `<span class="tool-label-name">${name}</span>`;
 
-    // Handle tap / click toggle within the icon itself
-    function toggleExpand(e) {
-      if (e && e.cancelable) {
-        e.preventDefault();
-      }
-      if (e) {
-        e.stopPropagation();
-      }
-
-      const wasExpanded = item.classList.contains('is-expanded');
-
-      if (!wasExpanded) {
-        // Expand this item and pause track
-        toolIcons.forEach(el => el.classList.remove('is-expanded'));
-        item.classList.add('is-expanded');
-        pauseScroll();
-      } else {
-        // UNTAP: Collapse immediately and RESUME SCROLLING!
-        resumeScroll();
-      }
-    }
-
     let touchStartX = 0;
     let touchStartY = 0;
 
     item.addEventListener('touchstart', (e) => {
+      lastTouchEndTime = Date.now();
+      activeTouchItem = item;
       if (e.touches && e.touches[0]) {
         touchStartX = e.touches[0].clientX;
         touchStartY = e.touches[0].clientY;
       }
+      pauseScroll();
     }, { passive: true });
 
     item.addEventListener('touchend', (e) => {
+      lastTouchEndTime = Date.now();
       if (e.changedTouches && e.changedTouches[0]) {
         const dx = Math.abs(e.changedTouches[0].clientX - touchStartX);
         const dy = Math.abs(e.changedTouches[0].clientY - touchStartY);
-        if (dx > 10 || dy > 10) {
-          // User was scrolling/swiping, do NOT trigger tap expansion
+        if (dx > 12 || dy > 12) {
+          // User was scrolling or swiping through the page, do NOT trigger tap expansion
+          activeTouchItem = null;
           return;
         }
       }
-      toggleExpand(e);
+      if (activeTouchItem === item) {
+        toggleExpand(item, e);
+      }
+      activeTouchItem = null;
     });
 
+    item.addEventListener('touchcancel', () => {
+      activeTouchItem = null;
+    });
+
+    // Desktop click handler with strict mobile ghost-click suppression
     item.addEventListener('click', (e) => {
-      // If triggered by touch, already handled by touchend
-      if (e.pointerType === 'touch') return;
-      toggleExpand(e);
+      // If triggered within 800ms of a touch event, it's a mobile synthetic ghost click; suppress it!
+      if (Date.now() - lastTouchEndTime < 800) {
+        if (e.cancelable) e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
+      toggleExpand(item, e);
     });
 
     item.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
-        toggleExpand(e);
+        toggleExpand(item, e);
       }
     });
   });
@@ -203,6 +229,9 @@ function initToolIconExpansion() {
   // Tap anywhere outside the slider collapses and resumes scrolling
   ['click', 'touchend'].forEach(evt => {
     document.addEventListener(evt, (e) => {
+      if (evt === 'click' && Date.now() - lastTouchEndTime < 500) {
+        return;
+      }
       if (!e.target.closest('.tools-icons-slider')) {
         const hadExpanded = document.querySelector('.tool-icon-item.is-expanded');
         if (hadExpanded) {

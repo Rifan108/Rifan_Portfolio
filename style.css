@@ -758,23 +758,24 @@ img, video, canvas, svg {
   white-space: nowrap;
 }
 
-/* State: Tapped & Expanded In-Place - Pure Simple Icon + Word (No card, no black background) */
+/* State: Tapped & Expanded In-Place - Clean, elegant pill enclosing icon & word */
 .tool-icon-item.is-expanded {
-  background: transparent;
-  border-color: transparent;
-  box-shadow: none;
-  padding: 4px 6px;
-  transform: scale(1.08);
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+  padding: 6px 14px 6px 10px;
+  transform: scale(1.05);
+  z-index: 5;
 }
 
 .tool-icon-item.is-expanded:hover {
-  transform: scale(1.08);
+  transform: scale(1.05);
 }
 
 .tool-icon-item.is-expanded .tool-item-label {
-  max-width: 240px;
+  max-width: 200px;
   opacity: 1;
-  padding-left: 10px;
+  padding-left: 8px;
 }
 
 .tool-svg {
@@ -819,7 +820,10 @@ img, video, canvas, svg {
   }
   .tool-icon-item {
     font-size: 28px;
-    padding: 4px;
+    padding: 6px 8px;
+    min-height: 44px;
+    min-width: 44px;
+    justify-content: center;
   }
   .tool-svg {
     width: 28px;
@@ -4110,20 +4114,29 @@ img, video, canvas, svg {
 
   .tool-icon-item {
     font-size: 26px;
-    padding: 4px 8px;
+    padding: 6px 8px;
+    min-height: 44px;
+    min-width: 44px;
+    justify-content: center;
   }
 
   .tool-label-name {
-    font-size: 0.88rem;
+    font-size: 0.85rem;
     color: #111111;
   }
 
   .tool-icon-item.is-expanded {
-    background: transparent;
-    border-color: transparent;
-    box-shadow: none;
-    padding: 4px 6px;
-    transform: scale(1.06);
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.14);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+    padding: 5px 12px 5px 8px;
+    transform: scale(1.04);
+    z-index: 5;
+  }
+
+  .tool-icon-item.is-expanded .tool-item-label {
+    max-width: 170px;
+    padding-left: 6px;
   }
 }
 
