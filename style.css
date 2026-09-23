@@ -29,13 +29,17 @@
 }
 
 html {
-  scroll-behavior: smooth;
   font-size: 16px;
   background-color: var(--color-bg);
   color: var(--color-text-dark);
-  overflow-x: hidden;
   max-width: 100%;
   -webkit-overflow-scrolling: touch;
+}
+
+@media (prefers-reduced-motion: no-preference) and (pointer: fine) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
@@ -45,6 +49,7 @@ body {
   line-height: 1.6;
   overflow-x: hidden;
   max-width: 100%;
+  overscroll-behavior-x: none;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -196,7 +201,6 @@ img, video, canvas, svg {
   max-width: 100%;
   position: relative;
   overflow-x: hidden;
-  overflow-x: clip;
   box-sizing: border-box;
 }
 
@@ -3266,9 +3270,16 @@ img, video, canvas, svg {
 
 @media (max-width: 768px) {
   .site-header {
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 100 !important;
+    background: #ffffff !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    transform: translate3d(0, 0, 0) !important;
+    -webkit-transform: translate3d(0, 0, 0) !important;
+    will-change: transform !important;
+    transition: none !important;
   }
 
   .site-header-inner {
@@ -3882,7 +3893,8 @@ img, video, canvas, svg {
     position: fixed !important;
     bottom: calc(12px + env(safe-area-inset-bottom, 0px)) !important;
     left: 50% !important;
-    transform: translateX(-50%) !important;
+    transform: translate3d(-50%, 0, 0) !important;
+    -webkit-transform: translate3d(-50%, 0, 0) !important;
     opacity: 1 !important;
     pointer-events: auto !important;
     z-index: 1000 !important;
@@ -3894,12 +3906,23 @@ img, video, canvas, svg {
     justify-content: center !important;
     gap: 0.4rem !important;
     border-radius: 9999px !important;
-    background: rgba(17, 17, 17, 0.95) !important;
-    backdrop-filter: blur(16px) !important;
-    -webkit-backdrop-filter: blur(16px) !important;
+    background: #111111 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
     border: 1px solid rgba(255, 255, 255, 0.18) !important;
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45) !important;
     box-sizing: border-box !important;
+    transition: none !important;
+    will-change: auto !important;
+  }
+
+  /* Disable heavy continuous floating animations on mobile during scrolling */
+  .phone-mockup.phone-front {
+    animation: none !important;
+  }
+
+  .halo-star {
+    animation: none !important;
   }
 
   .dock-brand,
