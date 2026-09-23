@@ -145,8 +145,10 @@ function initToolIconExpansion() {
 
     // Handle tap / click toggle within the icon itself
     function toggleExpand(e) {
-      if (e) {
+      if (e && e.cancelable) {
         e.preventDefault();
+      }
+      if (e) {
         e.stopPropagation();
       }
 
@@ -163,7 +165,34 @@ function initToolIconExpansion() {
       }
     }
 
-    item.addEventListener('click', toggleExpand);
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    item.addEventListener('touchstart', (e) => {
+      if (e.touches && e.touches[0]) {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+
+    item.addEventListener('touchend', (e) => {
+      if (e.changedTouches && e.changedTouches[0]) {
+        const dx = Math.abs(e.changedTouches[0].clientX - touchStartX);
+        const dy = Math.abs(e.changedTouches[0].clientY - touchStartY);
+        if (dx > 10 || dy > 10) {
+          // User was scrolling/swiping, do NOT trigger tap expansion
+          return;
+        }
+      }
+      toggleExpand(e);
+    });
+
+    item.addEventListener('click', (e) => {
+      // If triggered by touch, already handled by touchend
+      if (e.pointerType === 'touch') return;
+      toggleExpand(e);
+    });
+
     item.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         toggleExpand(e);

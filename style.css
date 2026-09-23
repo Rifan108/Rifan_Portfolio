@@ -682,10 +682,10 @@ img, video, canvas, svg {
 
 @keyframes iconsScrollLeft {
   0% {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
   100% {
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
@@ -3162,37 +3162,53 @@ img, video, canvas, svg {
 }
 
 /* ==========================================================================
-   TOAST NOTIFICATION
+/* ==========================================================================
+   TOAST NOTIFICATION (Snackbar)
    ========================================================================== */
 .toast {
   position: fixed;
-  bottom: 5.5rem;
-  left: 50%;
-  transform: translateX(-50%) translateY(20px);
+  bottom: calc(5.5rem + env(safe-area-inset-bottom, 0px));
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: fit-content;
+  max-width: calc(100vw - 32px);
   background: #111111;
   color: #ffffff;
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem 1.4rem;
   border-radius: 9999px;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 600;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.75rem;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.16);
   opacity: 0;
   pointer-events: none;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 1000;
+  transform: translateY(20px);
+  transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1100;
+  box-sizing: border-box;
 }
 
 .toast.show {
   opacity: 1;
   pointer-events: auto;
-  transform: translateX(-50%) translateY(0);
+  transform: translateY(0);
 }
 
 .toast-icon {
   color: #22c55e;
+  flex-shrink: 0;
+}
+
+.toast-message {
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.35;
 }
 
 
@@ -3444,24 +3460,61 @@ img, video, canvas, svg {
     margin-top: 1.5rem !important;
   }
 
-  /* Tools slider: Active, smooth continuous marquee on mobile */
+  /* Tools slider: Active, 100% glitch-free hardware-accelerated marquee on mobile */
   .tools-icons-slider {
     width: 100% !important;
     max-width: 100% !important;
     overflow: hidden !important;
     display: flex !important;
-    padding: 12px 0 !important;
+    padding: 14px 0 !important;
     margin: 1.5rem auto 1.2rem auto !important;
     position: relative !important;
-    mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%) !important;
-    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%) !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+    user-select: none !important;
+  }
+
+  .tools-icons-slider::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    width: 32px !important;
+    background: linear-gradient(to right, #ffffff, rgba(255, 255, 255, 0)) !important;
+    z-index: 3 !important;
+    pointer-events: none !important;
+  }
+
+  .tools-icons-slider::after {
+    content: "" !important;
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 32px !important;
+    background: linear-gradient(to left, #ffffff, rgba(255, 255, 255, 0)) !important;
+    z-index: 3 !important;
+    pointer-events: none !important;
   }
 
   .tools-icons-track {
     display: flex !important;
     width: max-content !important;
-    animation: iconsScrollLeft 30s linear infinite !important;
+    flex-wrap: nowrap !important;
+    animation: iconsScrollLeft 32s linear infinite !important;
     will-change: transform !important;
+    -webkit-backface-visibility: hidden !important;
+    backface-visibility: hidden !important;
+  }
+
+  .tools-icons-content {
+    display: flex !important;
+    flex: 0 0 auto !important;
+    align-items: center !important;
+    gap: 32px !important;
+    padding-right: 32px !important;
+    box-sizing: border-box !important;
   }
 
   /* Doodle Snake Line in Hero: Centered and dynamic undulating wave on mobile */
@@ -3484,8 +3537,23 @@ img, video, canvas, svg {
   }
 
   .doodle-line-wrap .doodle-svg path {
-    stroke-dasharray: 400 !important;
-    animation: doodleSnakeWave 4s ease-in-out infinite alternate !important;
+    stroke: #111111 !important;
+    stroke-width: 2.5 !important;
+    stroke-linecap: round !important;
+    stroke-dasharray: none !important;
+    animation: doodleSmoothFloat 3.6s ease-in-out infinite alternate !important;
+  }
+
+  @keyframes doodleSmoothFloat {
+    0% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-2px);
+    }
+    100% {
+      transform: translateY(2px);
+    }
   }
 
   .skills-columns-grid {
@@ -3939,19 +4007,22 @@ img, video, canvas, svg {
     display: none !important;
   }
 
-  /* Fixed Floating Bottom Navigation Bar */
+  /* Fixed Floating Bottom Navigation Bar (Centered without transform to avoid mobile address-bar scroll jitter) */
   .floating-nav-dock {
     position: fixed !important;
     bottom: calc(12px + env(safe-area-inset-bottom, 0px)) !important;
-    left: 50% !important;
-    transform: translate3d(-50%, 0, 0) !important;
-    -webkit-transform: translate3d(-50%, 0, 0) !important;
+    left: 0 !important;
+    right: 0 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    transform: none !important;
+    -webkit-transform: none !important;
     opacity: 1 !important;
     pointer-events: auto !important;
     z-index: 1000 !important;
-    width: auto !important;
+    width: fit-content !important;
     max-width: calc(100vw - 20px) !important;
-    padding: 5px 10px !important;
+    padding: 6px 12px !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
