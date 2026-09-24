@@ -697,7 +697,7 @@ img, video, canvas, svg {
   flex-shrink: 0;
 }
 
-/* Base Tool Icon Item (Expands in-place into an authentic pill when tapped) */
+/* Base Tool Icon Item (Expands in-place showing pure icon + word when tapped, no card) */
 .tool-icon-item {
   position: relative;
   display: inline-flex;
@@ -706,14 +706,11 @@ img, video, canvas, svg {
   line-height: 1;
   cursor: pointer;
   background: transparent;
-  border: 1px solid transparent;
-  border-radius: 9999px;
-  padding: 6px 10px;
-  transition: background 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-              padding 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  border: none;
+  box-shadow: none;
+  padding: 6px 8px;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.25s ease;
   user-select: none;
   outline: none;
   -webkit-tap-highlight-color: transparent;
@@ -733,7 +730,7 @@ img, video, canvas, svg {
   flex-shrink: 0;
 }
 
-/* Expanding simple word label within the tapped icon item itself (Clean, pure text, no card) */
+/* Expanding simple word label within the tapped icon item itself (Pure text, no card) */
 .tool-item-label {
   display: inline-flex;
   align-items: center;
@@ -758,12 +755,12 @@ img, video, canvas, svg {
   white-space: nowrap;
 }
 
-/* State: Tapped & Expanded In-Place - Clean, elegant pill enclosing icon & word */
+/* State: Tapped & Expanded In-Place - Pure Icon + Word (NO CARD: no background, no border, no shadow) */
 .tool-icon-item.is-expanded {
-  background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.12);
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
-  padding: 6px 14px 6px 10px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 6px 8px;
   transform: scale(1.05);
   z-index: 5;
 }
@@ -773,7 +770,7 @@ img, video, canvas, svg {
 }
 
 .tool-icon-item.is-expanded .tool-item-label {
-  max-width: 200px;
+  max-width: 240px;
   opacity: 1;
   padding-left: 8px;
 }
@@ -4114,28 +4111,32 @@ img, video, canvas, svg {
 
   .tool-icon-item {
     font-size: 26px;
-    padding: 6px 8px;
+    padding: 6px 6px;
     min-height: 44px;
     min-width: 44px;
     justify-content: center;
+    background: transparent;
+    border: none;
+    box-shadow: none;
   }
 
   .tool-label-name {
-    font-size: 0.85rem;
+    font-size: 0.92rem;
     color: #111111;
   }
 
   .tool-icon-item.is-expanded {
-    background: #ffffff;
-    border: 1px solid rgba(0, 0, 0, 0.14);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
-    padding: 5px 12px 5px 8px;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 6px 6px;
     transform: scale(1.04);
     z-index: 5;
   }
 
   .tool-icon-item.is-expanded .tool-item-label {
-    max-width: 170px;
+    max-width: 200px;
+    opacity: 1;
     padding-left: 6px;
   }
 }
